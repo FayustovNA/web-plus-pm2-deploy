@@ -1,12 +1,12 @@
-require('dotenv').config({ path: './.env.deploy' });
+require('dotenv').config();
 
 const {
-  DEPLOY_USER, DEPLOY_HOST, DEPLOY_PATH, DEPLOY_REF = 'origin/master', DEPLOY_REPO,
+  DEPLOY_USER, DEPLOY_HOST, DEPLOY_PATH, DEPLOY_REF = 'origin/master',
 } = process.env;
 
 module.exports = {
   apps: [{
-    name: 'backend',
+    name: 'api-service',
     script: './dist/app.js',
   }],
 
@@ -15,10 +15,10 @@ module.exports = {
       user: DEPLOY_USER,
       host: DEPLOY_HOST,
       ref: DEPLOY_REF,
-      repo: DEPLOY_REPO,
+      repo: 'https://github.com/FayustovNA/web-plus-pm2-deploy.git',
       path: DEPLOY_PATH,
-      'pre-deploy-local': `scp ./.env.deploy ${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_PATH}`,
-      'post-deploy': `cd ${DEPLOY_PATH}/source/backend && npm i && npm run build`,
+      'pre-deploy': `scp ./*.env ${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_PATH}`,
+      'post-deploy': 'npm i && npm run build',
     },
   },
 };
