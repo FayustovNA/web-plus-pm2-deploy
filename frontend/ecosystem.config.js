@@ -5,10 +5,6 @@ const {
 } = process.env;
 
 module.exports = {
-  apps: [{
-    name: 'frontend',
-  }],
-
   deploy: {
     production: {
       user: DEPLOY_USER,
@@ -16,7 +12,7 @@ module.exports = {
       ref: DEPLOY_REF,
       path: DEPLOY_PATH,
       repo: DEPLOY_REPO,
-      'post-deploy': `cd frontend && pwd && npm i && npm run build`,
+      'post-deploy': `cd ${DEPLOY_PATH}/current/frontend && npm i && npm run build`,
     },
   },
 };
